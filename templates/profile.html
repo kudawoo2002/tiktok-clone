@@ -13,8 +13,7 @@
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
       [x-cloak] {
         display: none !important;
@@ -28,36 +27,103 @@
       h2 {
         @apply text-[1.2rem] font-bold;
       }
+      #account input,
       .input-field {
-        @apply w-full bg-gray-200 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none;
+        @apply bg-neutral-100 w-full px-3 py-2.5 border border-neutral-300 rounded-sm placeholder-neutral-400 focus:border-neutral-400 focus:outline-hidden;
+      }
+      #account button {
+        @apply bg-rose-500 hover:bg-rose-600 text-white px-4 py-2.5 rounded-md font-medium mb-2;
+      }
+      #account label {
+        @apply hidden;
+      }
+      #account p {
+        @apply py-2;
+      }
+      #account li {
+        @apply text-sm py-1 list-disc ml-5;
+      }
+      #account button[form="logout-from-stage"] {
+        @apply bg-neutral-200 hover:bg-neutral-300 text-neutral-500 px-4 py-2.5 rounded-md font-medium mb-2;
+      }
+      button {
+        @apply cursor-pointer focus:outline-none;
       }
       .button {
-        @apply px-3 py-2 w-full bg-neutral-200 rounded-lg cursor-pointer text-sm font-medium select-none;
+        @apply bg-neutral-100 w-full px-3 py-2.5 rounded-sm font-medium text-neutral-400 select-none;
       }
       .button-active {
-        @apply bg-rose-500 text-white hover:bg-rose-600;
+        @apply bg-rose-500 hover:bg-rose-600 text-white;
       }
       .button-nav {
-        @apply h-full rounded-md h-10 hover:bg-neutral-100 flex items-center px-1 cursor-pointer;
+        @apply w-full h-10 rounded-md hover:bg-neutral-100 flex items-center px-1;
       }
-
-      .button-rounded {
-        @apply w-full rounded-full h-10 hover:bg-neutral-100 flex items-center justify-between px-2 cursor-pointer;
-      }
-
       .button-nav span {
-        @apply ml-3 font-medium  hidden lg:block whitespace-nowrap transition duration-300;
+        @apply ml-3 font-medium hidden lg:block whitespace-nowrap transition duration-300;
       }
-
+      .button-rounded {
+        @apply w-full h-10 rounded-full hover:bg-neutral-100 flex items-center justify-between px-3;
+      }
       .button-article {
-        @apply rounded-full size-13 bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center transition-all duration-300 ease-in-out;
+        @apply rounded-full size-13 bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center transition-all duration-300;
       }
       input[type="search"]::-webkit-search-cancel-button {
         -webkit-appearance: none;
         appearance: none;
       }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE 10+ */
+      }
+      .errorlist {
+        @apply py-2;
+      }
+      .errorlist li {
+        @apply text-rose-500 text-sm border-l-3 pl-3 my-1 !list-none !ml-0;
+      }
+      .success {
+        @apply text-green-500 text-sm;
+      }
+      .error {
+        @apply text-rose-500 text-sm;
+      }
+      @keyframes scaleIn {
+        0% {
+          transform: scale(0.6);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .scale-in {
+        animation: scaleIn 0.2s forwards;
+      }
+      @keyframes playbuttonanim {
+        0% {
+          opacity: 0;
+          transform: scale(0.4);
+        }
+        30% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1.6);
+        }
+      }
+      .play-button-anim {
+        animation: playbuttonanim 0.7s ease-out forwards;
+      }
     </style>
-    <link rel="stylesheet" href="../static/css/style.css" />
+    <link href="/static/css/style.css" rel="stylesheet" />
   </head>
   <body
     class="dark:bg-black dark:text-white dark:fill-white"
@@ -69,7 +135,7 @@
   >
     <div class="min-h-[100dvh]">
       <aside
-        class="fixed h-screen w-18 lg:w-74 border-r border-neutral-200 dark:border-neutral-800 lg:border-none transition-all duration-300 ease-in-out"
+        class="fixed h-screen w-18 lg:w-60 border-r border-neutral-200 dark:border-neutral-800 lg:border-none transition-all duration-300 ease-in-out"
         :class="{'!w-18':showDrawer}"
       >
         <nav class="relative h-full bg-white dark:bg-black z-10">
@@ -131,7 +197,7 @@
                 @click="window.location.href='home.html'"
                 class="button-nav dark:hover:!bg-neutral-800"
               >
-                <div class="size-8 fill-rose-500 flex-shrink-0">
+                <div class="size-8 flex-shrink-0">
                   <svg viewBox="0 0 48 48">
                     <path
                       d="M24.9505 7.84001C24.3975 7.38666 23.6014 7.38666 23.0485 7.84003L6.94846 21.04C6.45839 21.4418 6.2737 22.1083 6.48706 22.705C6.70041 23.3017 7.26576 23.7 7.89949 23.7H10.2311L11.4232 36.7278C11.5409 38.0149 12.6203 39 13.9128 39H21.5C22.0523 39 22.5 38.5523 22.5 38V28.3153C22.5 27.763 22.9477 27.3153 23.5 27.3153H24.5C25.0523 27.3153 25.5 27.763 25.5 28.3153V38C25.5 38.5523 25.9477 39 26.5 39H34.0874C35.3798 39 36.4592 38.0149 36.577 36.7278L37.7691 23.7H40.1001C40.7338 23.7 41.2992 23.3017 41.5125 22.705C41.7259 22.1082 41.5412 21.4418 41.0511 21.04L24.9505 7.84001Z"
@@ -139,7 +205,7 @@
                   </svg>
                 </div>
                 <span
-                  class="text-rose-500 whitespace-nowrap transition-duration-300"
+                  class="whitespace-nowrap transition-duration-300"
                   :class="{'!opacity-0':showDrawer}"
                   >For You</span
                 >
@@ -205,7 +271,11 @@
                   >Friends</span
                 >
               </button>
-              <button id="upload" class="button-nav dark:hover:!bg-neutral-800">
+              <button
+                @click="window.location.href='upload.html'"
+                id="upload"
+                class="button-nav dark:hover:!bg-neutral-800"
+              >
                 <div class="size-8 flex-shrink-0">
                   <svg class="scale-75" viewBox="0 0 48 48">
                     <path
@@ -217,7 +287,6 @@
                   </svg>
                 </div>
                 <span
-                  @click="window.location.href='upload.html'"
                   class="whitespace-nowrap transition-all durtion-300"
                   :class="{'!opacity-0':showDrawer}"
                   >Upload</span
@@ -272,7 +341,7 @@
                   </div>
                 </div>
                 <span
-                  class="whitespace-nowrap transition-all durtion-300"
+                  class="whitespace-nowrap transition-all durtion-300 text-rose-500"
                   :class="{'!opacity-0':showDrawer}"
                   >Profile</span
                 >
@@ -468,170 +537,354 @@
           </div>
         </side-drawer>
       </aside>
-      <main class="h-screen w-full px-18">
-        <article
-          class="h-full mx-auto py-2 px-4 flex items-center justify-center"
-        >
-          <div
-            class="relative bg-black max-h-full max-w-full lg:h-full rounded-2xl aspect-[9/16] flex items-center justify-center"
-          >
-            <img
-              src="../media/robot.jpg"
-              alt=""
-              class="aspect-[9/16] rounded-2xl object-cover"
-            />
-            <article-info class="absolute bottom-0 left-0 right-0">
-              <div class="absolute bottom-0 p-5 text-white z-10">
-                <a href="" class="hover:underline">Kwamisitou</a>
-                <div class="mt-1">
-                  <a href="" class="hover:underline">#robot</a>
-                </div>
+      <main class="h-screen w-full">
+        <div class="ml-18 lg:ml-60 px-4 xl:px-12">
+          <div class="max-w-[1250px] mx-auto" id="">
+            <profile-info
+              class="flex flex-col md:flex-row items-center gap-6 py-6"
+              id=""
+            >
+              <div class="size-52 shrink-0 rounded-full overflow-hidden" id="">
+                <img
+                  src="../media/avatar.png"
+                  alt=""
+                  class="w-full h-full object-cover"
+                  id=""
+                />
               </div>
               <div
-                class="h-64 w-full bg-gradient-to-t from-black to-transparent opacity-30 rounded-b-2xl"
-              ></div>
-            </article-info>
-            <article-buttons
-              class="absolute block -right-16 bottom-0 flex flex-col gap-2"
-            >
-              <button
-                id="author"
-                class="relative cursor-pointer flex justify-center mb-4"
+                class="flex flex-col gap-3 items-center md:items-start text-center md:text-left"
+                id=""
               >
-                <div
-                  class="rounded-full size-13 bg-neutral-100 overflow-hidden"
-                >
-                  <img
-                    src="../media/avatar.png"
-                    alt=""
-                    class="w-full h-full object-center object-cover"
-                  />
-                  <div
-                    class="absolute left-4 top-10 rounded-full bg-rose-500 size-6 hover:bg-rose-600 flex items-center justify-center"
+                <div class="space-x-3 items-end" id="">
+                  <span class="text-2xl font-bold" id="">kudawoo2002</span>
+                  <span class="text-lg font-medium" id="">Kwami Sitou</span>
+                </div>
+                <div class="flex gap-3 font-medium" id="">
+                  <button
+                    class="bg-rose-500 hover:bg-rose-600 rounded-md text-white px-7 py-2"
+                    id=""
                   >
-                    <div class="size-3.5 fill-white">
-                      <svg viewBox="0 0 48 48">
+                    Follow
+                  </button>
+                  <button
+                    class="bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-md px-7 py-2"
+                    id=""
+                  >
+                    Message
+                  </button>
+                  <button
+                    class="bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-md px-7 py-2"
+                    id=""
+                  >
+                    <div class="size-5" id="">
+                      <svg viewBox="0 0 20 20">
                         <path
-                          d="M26 7a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v15H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h15v15a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V26h15a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H26V7Z"
+                          d="M10.938 3.175a.674.674 0 0 1 1.138-.488l6.526 6.215c.574.547.554 1.47-.043 1.991l-6.505 5.676a.674.674 0 0 1-1.116-.508V13.49s-6.985-1.258-9.225 2.854c-.209.384-1.023.518-.857-1.395.692-3.52 2.106-9.017 10.082-9.017z"
+                          clip-rule="evenodd"
                         ></path>
                       </svg>
                     </div>
+                  </button>
+                </div>
+                <div class="flex gap-5" id="">
+                  <div class="" id="">
+                    <span class="mr-1 font-bold" id="">3</span> following
+                  </div>
+                  <div class="" id="">
+                    <span class="mr-1 font-bold" id="">5</span> followers
+                  </div>
+                  <div class="" id="">
+                    <span class="mr-1 font-bold" id="">4</span> likes
                   </div>
                 </div>
-              </button>
-              <button id="like" class="cursor-pointer">
-                <div
-                  class="button-article dark:!bg-neutral-800 dark:hover:!bg-neutral-900"
-                >
-                  <div class="size-6">
-                    <svg viewBox="0 0 24 24">
-                      <path
-                        d="M7.5 2.25C10.5 2.25 12 4.25 12 4.25C12 4.25 13.5 2.25 16.5 2.25C20 2.25 22.5 4.99999 22.5 8.5C22.5 12.5 19.2311 16.0657 16.25 18.75C14.4095 20.4072 13 21.5 12 21.5C11 21.5 9.55051 20.3989 7.75 18.75C4.81949 16.0662 1.5 12.5 1.5 8.5C1.5 4.99999 4 2.25 7.5 2.25Z"
-                      ></path>
-                    </svg>
-                  </div>
+                <div class="leading-5" id="">
+                  Junior Developer, i went to get more exposure
                 </div>
-                <p
-                  class="text-xs font-bold text-neutral-600 dark:text-neutral-400 mt-1"
-                >
-                  3
-                </p>
-              </button>
-
-              <button
-                id="comment"
-                @click="window.location.href='postpage.html'"
-                class="cursor-pointer"
-              >
-                <div
-                  class="button-article dark:!bg-neutral-800 dark:hover:!bg-neutral-900"
-                >
-                  <div class="size-6">
+                <div class="flex gap-1 items-cente" id="">
+                  <div class="size-5 fill-black dark:fill-white -ml-1" id="">
                     <svg viewBox="0 0 48 48">
                       <path
-                        fill-rule="evenodd"
-                        d="M2 21.5c0-10.22 9.88-18 22-18s22 7.78 22 18c0 5.63-3.19 10.74-7.32 14.8a43.6 43.6 0 0 1-14.14 9.1A1.5 1.5 0 0 1 22.5 44v-5.04C11.13 38.4 2 31.34 2 21.5M14 25a3 3 0 1 0 0-6 3 3 0 0 0 0 6m10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6m13-3a3 3 0 1 1-6 0 3 3 0 0 1 6 0"
-                        clip-rule="evenodd"
+                        d="M23.5857 9.58571C27.6805 5.49096 34.3194 5.49096 38.4141 9.58571C42.5089 13.6805 42.5089 20.3194 38.4141 24.4141L37.1212 25.707C36.7307 26.0975 36.0975 26.0975 35.707 25.707L34.2928 24.2928C33.9023 23.9023 33.9023 23.2691 34.2928 22.8786L35.5857 21.5857C38.1184 19.0531 38.1184 14.9468 35.5857 12.4141C33.053 9.88149 28.9468 9.88148 26.4141 12.4141L22.4141 16.4141C20.121 18.7072 19.9041 22.2903 21.7634 24.8275C22.0899 25.2729 22.0976 25.9023 21.707 26.2928L20.2928 27.707C19.9023 28.0975 19.2646 28.1001 18.9126 27.6745C15.5048 23.5554 15.7292 17.4422 19.5857 13.5857L23.5857 9.58571ZM27.707 20.2928C28.0976 19.9023 28.7352 19.8997 29.0873 20.3253C32.495 24.4444 32.2706 30.5576 28.4141 34.4141L24.4141 38.4141C20.3194 42.5089 13.6805 42.5089 9.58571 38.4141C5.49096 34.3193 5.49096 27.6804 9.58573 23.5857L10.8786 22.2928C11.2691 21.9023 11.9023 21.9023 12.2928 22.2928L13.707 23.707C14.0976 24.0975 14.0975 24.7307 13.707 25.1212L12.4141 26.4141C9.88148 28.9468 9.88148 33.053 12.4141 35.5857C14.9468 38.1183 19.053 38.1183 21.5857 35.5857L25.5857 31.5857C27.8788 29.2926 28.0957 25.7095 26.2364 23.1724C25.9099 22.7269 25.9023 22.0975 26.2928 21.707L27.707 20.2928Z"
                       ></path>
                     </svg>
                   </div>
+                  <a
+                    href="#"
+                    class="font-medium hover:underline w-60 truncate"
+                    id=""
+                    >https://www.developer.com/@kudawoo2002dsasdsadas</a
+                  >
                 </div>
-                <p
-                  class="text-xs font-bold text-neutral-600 dark:text-neutral-400 mt-1"
-                >
-                  3
-                </p>
-              </button>
-
-              <button id="bookmark" class="cursor-pointer">
-                <div
-                  class="button-article dark:!bg-neutral-800 dark:hover:!bg-neutral-900"
-                >
-                  <div class="size-6">
-                    <svg viewBox="0 0 24 24">
-                      <path
-                        d="M4 4.5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v15.13a1 1 0 0 1-1.555.831l-6.167-4.12a.5.5 0 0 0-.556 0l-6.167 4.12A1 1 0 0 1 4 19.63z"
-                      ></path>
-                    </svg>
-                  </div>
-                </div>
-                <p
-                  class="text-xs font-bold text-neutral-600 dark:text-neutral-400 mt-1"
-                >
-                  3
-                </p>
-              </button>
-
-              <button id="share" class="cursor-pointer">
-                <div
-                  class="button-article dark:!bg-neutral-800 dark:hover:!bg-neutral-900"
-                >
-                  <div class="size-6">
-                    <svg viewBox="0 0 20 20">
-                      <path
-                        d="M10.938 3.175a.674.674 0 0 1 1.138-.488l6.526 6.215c.574.547.554 1.47-.043 1.991l-6.505 5.676a.674.674 0 0 1-1.116-.508V13.49s-6.985-1.258-9.225 2.854c-.209.384-1.023.518-.857-1.395.692-3.52 2.106-9.017 10.082-9.017z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </div>
-                </div>
-                <p
-                  class="text-xs font-bold text-neutral-600 dark:text-neutral-400 mt-1"
-                >
-                  3
-                </p>
-              </button>
-            </article-buttons>
-          </div>
-        </article>
-        <scroll-bar
-          class="fixed w-16 h-screen top-0 right-0 hidden md:flex items-center"
-        >
-          <div class="flex flex-col gap-4">
-            <button
-              class="size-12 bg-neutral-100 dark:bg-neutral-900 fill-neutral-400 dark:fill-neutral-600 cursor-not-allowed rounded-full flex items-center justify-center"
-            >
-              <div class="size-6">
-                <svg viewBox="0 0 48 48">
-                  <path
-                    d="m24 20.24 13.17 13.17a1 1 0 0 0 1.42 0l2.82-2.82a1 1 0 0 0 0-1.42L25.06 12.82a1.5 1.5 0 0 0-2.12 0L6.59 29.17a1 1 0 0 0 0 1.42L9.4 33.4a1 1 0 0 0 1.42 0L24 20.24Z"
-                  ></path>
-                </svg>
               </div>
-            </button>
-            <button
-              class="size-12 bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 hover:bg-neutral-200 rounded-full cursor-pointer flex items-center justify-center"
+            </profile-info>
+            <profile-content
+              x-data="{selectedTab:'posts'}"
+              class="block mt-2"
+              id=""
             >
-              <div class="size-6">
-                <svg viewBox="0 0 48 48">
-                  <path
-                    d="m24 27.76 13.17-13.17a1 1 0 0 1 1.42 0l2.82 2.82a1 1 0 0 1 0 1.42L25.06 35.18a1.5 1.5 0 0 1-2.12 0L6.59 18.83a1 1 0 0 1 0-1.42L9.4 14.6a1 1 0 0 1 1.42 0L24 27.76Z"
-                  ></path>
-                </svg>
-              </div>
-            </button>
+              <tabs-head
+                class="flex flex-col md:flex-row md:justify-between border-b border-b-neutral-300 dark:border-b-neutral-800 font-medium"
+                id=""
+                ><div class="grid grid-cols-4 md:flex text-md" id="">
+                  <button
+                    @click="selectedTab='posts'"
+                    class="px-4 xl:px-7 pb-2 border-b-2"
+                    :class="selectedTab==='posts'? 'border-black dark:border-white':'text-neutral-500 fill-neutral-500 border-transparent'"
+                    id=""
+                  >
+                    <div class="flex items-center gap-2 justify-center" id="">
+                      <div class="size-5 shrink-0" id="">
+                        <svg
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                        >
+                          <path
+                            d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                          />
+                        </svg>
+                      </div>
+                      <spn class="hidden sm:block" id="">Posts</spn>
+                    </div>
+                  </button>
+                  <button
+                    @click="selectedTab='reposts'"
+                    class="px-4 xl:px-7 pb-2 border-b-2"
+                    :class="selectedTab==='reposts'? 'border-black dark:border-white':'text-neutral-500 fill-neutral-500 border-transparent'"
+                    id=""
+                  >
+                    <div class="flex items-center gap-2 justify-center" id="">
+                      <div class="size-5 shrink-0" id="">
+                        <svg viewBox="0 0 48 48">
+                          <path
+                            d="M37.7 15v19.7l3.48-3.7a.7.7 0 0 1 .99-.03l1.46 1.37c.28.26.3.7.03.99l-6.26 6.66a2.3 2.3 0 0 1-3.34.01l-6.36-6.66a.7.7 0 0 1 .02-.99l1.45-1.38a.7.7 0 0 1 .99.02l4.14 4.34V15a4.3 4.3 0 0 0-4.3-4.3h-3.5a.7.7 0 0 1-.7-.7V8c0-.39.31-.7.7-.7H30a7.7 7.7 0 0 1 7.7 7.7ZM17.84 17.34 13.7 13v20a4.3 4.3 0 0 0 4.3 4.3h3.5c.39 0 .7.31.7.7v2a.7.7 0 0 1-.7.7H18a7.7 7.7 0 0 1-7.7-7.7V13.63l-3.48 3.7a.7.7 0 0 1-.99.03L4.37 16a.7.7 0 0 1-.03-.98l6.26-6.67a2.3 2.3 0 0 1 3.34-.01l6.36 6.66a.7.7 0 0 1-.02.99l-1.45 1.38a.7.7 0 0 1-.99-.02Z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <spn class="hidden sm:block" id="">Reposts</spn>
+                    </div>
+                  </button>
+                  <button
+                    @click="selectedTab='favorites'"
+                    class="px-4 xl:px-7 pb-2 border-b-2"
+                    :class="selectedTab==='favorites'? 'border-black dark:border-white':'text-neutral-500 fill-neutral-500 border-transparent'"
+                    id=""
+                  >
+                    <div class="flex items-center gap-2 justify-center" id="">
+                      <div class="size-5 shrink-0" id="">
+                        <svg viewBox="0 0 48 48">
+                          <path
+                            d="M37.7 15v19.7l3.48-3.7a.7.7 0 0 1 .99-.03l1.46 1.37c.28.26.3.7.03.99l-6.26 6.66a2.3 2.3 0 0 1-3.34.01l-6.36-6.66a.7.7 0 0 1 .02-.99l1.45-1.38a.7.7 0 0 1 .99.02l4.14 4.34V15a4.3 4.3 0 0 0-4.3-4.3h-3.5a.7.7 0 0 1-.7-.7V8c0-.39.31-.7.7-.7H30a7.7 7.7 0 0 1 7.7 7.7ZM17.84 17.34 13.7 13v20a4.3 4.3 0 0 0 4.3 4.3h3.5c.39 0 .7.31.7.7v2a.7.7 0 0 1-.7.7H18a7.7 7.7 0 0 1-7.7-7.7V13.63l-3.48 3.7a.7.7 0 0 1-.99.03L4.37 16a.7.7 0 0 1-.03-.98l6.26-6.67a2.3 2.3 0 0 1 3.34-.01l6.36 6.66a.7.7 0 0 1-.02.99l-1.45 1.38a.7.7 0 0 1-.99-.02Z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <spn class="hidden sm:block" id="">Favorites</spn>
+                    </div>
+                  </button>
+                  <button
+                    @click="selectedTab='liked'"
+                    class="px-4 xl:px-7 pb-2 border-b-2"
+                    :class="selectedTab==='liked'? 'border-black dark:border-white':'text-neutral-500 fill-neutral-500 border-transparent'"
+                    id=""
+                  >
+                    <div class="flex items-center gap-2 justify-center" id="">
+                      <div class="size-6 shrink-0" id="">
+                        <svg viewBox="0 0 48 48">
+                          <path
+                            d="M40.96 24.15c1.83-4.8 1.05-8.61-.8-11.33a10.87 10.87 0 0 0-6.34-4.49 9.43 9.43 0 0 0-6.83 1.17c-1.08.65-2.1 1.53-2.99 2.66-.9-1.13-1.9-2.01-3-2.66a9.43 9.43 0 0 0-6.82-1.17 10.87 10.87 0 0 0-6.34 4.49c-1.85 2.72-2.63 6.54-.8 11.33 1.43 3.74 4.5 7.23 7.6 9.98a46.31 46.31 0 0 0 8.6 6.12l.76.4.76-.4a46.31 46.31 0 0 0 8.6-6.12c3.1-2.75 6.17-6.24 7.6-9.98ZM24 17.58c2.3-2.88 4.7-6.2 9.03-5.33a6.95 6.95 0 0 1 3.82 2.81c1.07 1.58 1.76 4.02.37 7.66-1.09 2.86-3.6 5.82-6.51 8.43A44.84 44.84 0 0 1 24 36.09a44.84 44.84 0 0 1-6.7-4.94c-2.93-2.6-5.43-5.57-6.52-8.43-1.4-3.64-.7-6.08.37-7.66a6.95 6.95 0 0 1 3.82-2.8c4.33-.88 6.73 2.44 9.03 5.32Z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <spn class="hidden sm:block" id="">Liked</spn>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  x-show="selectedTab==='posts'"
+                  class="w-max md:-mt-2 py-3 lg:py-0 mx-auto md:mx-0"
+                  id=""
+                >
+                  <div
+                    x-data="{selectedFilter:'latest'}"
+                    class="flex text-xs bg-neutral-200 dark:bg-neutral-800 rounded-md p-0.5"
+                    id=""
+                  >
+                    <button
+                      @click="selectedFilter='latest'"
+                      class="px-3 py-2 rounded-sm"
+                      :class="selectedFilter==='latest'?'bg-white dark:bg-neutral-600':'text-neutral-600'"
+                      id=""
+                    >
+                      Latest
+                    </button>
+                    <button
+                      @click="selectedFilter='popular'"
+                      class="px-3 py-2 rounded-sm"
+                      :class="selectedFilter==='popular'?'bg-white dark:bg-neutral-600':'text-neutral-600'"
+                      id=""
+                    >
+                      Popular
+                    </button>
+                    <button
+                      @click="selectedFilter='oldest'"
+                      class="px-3 py-2 rounded-sm"
+                      :class="selectedFilter==='oldest'?'bg-white dark:bg-neutral-600':'text-neutral-600'"
+                      id=""
+                    >
+                      Oldest
+                    </button>
+                  </div>
+                </div></tabs-head
+              >
+              <tabs-content class="" id=""
+                ><div x-show="selectedTab==='posts'" x.clock class="" id="">
+                  <div
+                    class="grid gap-4 grid-cols-2 md:grid-cols-[repeat(auto-fill,_minmax(170px,_1fr))] py-4"
+                    id=""
+                  >
+                    <article class="">
+                      <a href="" class="relative" id="">
+                        <div
+                          class="bg-black w-full aspect-[3/4] rounded-lg overflow-hidden"
+                          id=""
+                        >
+                          <img
+                            src="../media/robot.jpg"
+                            alt="w-full h-full object-cover"
+                            class=""
+                            id=""
+                          />
+                          <artive-info
+                            class="absolute bottom-0 left-0 right-0"
+                            id=""
+                          >
+                            <div
+                              class="h-30 w-full bg-gradient-to-t from-cyan-300 to-transparent opacity-30 rounded-b-lg"
+                              id=""
+                            ></div>
+                            <div
+                              class="absolute bottom-0 p-3 flex items-center gap-1 z-10"
+                              id=""
+                            >
+                              <div class="size-5 fill-white" id="">
+                                <svg viewBox="0 0 48 48">
+                                  <path
+                                    d="M40.96 24.15c1.83-4.8 1.05-8.61-.8-11.33a10.87 10.87 0 0 0-6.34-4.49 9.43 9.43 0 0 0-6.83 1.17c-1.08.65-2.1 1.53-2.99 2.66-.9-1.13-1.9-2.01-3-2.66a9.43 9.43 0 0 0-6.82-1.17 10.87 10.87 0 0 0-6.34 4.49c-1.85 2.72-2.63 6.54-.8 11.33 1.43 3.74 4.5 7.23 7.6 9.98a46.31 46.31 0 0 0 8.6 6.12l.76.4.76-.4a46.31 46.31 0 0 0 8.6-6.12c3.1-2.75 6.17-6.24 7.6-9.98ZM24 17.58c2.3-2.88 4.7-6.2 9.03-5.33a6.95 6.95 0 0 1 3.82 2.81c1.07 1.58 1.76 4.02.37 7.66-1.09 2.86-3.6 5.82-6.51 8.43A44.84 44.84 0 0 1 24 36.09a44.84 44.84 0 0 1-6.7-4.94c-2.93-2.6-5.43-5.57-6.52-8.43-1.4-3.64-.7-6.08.37-7.66a6.95 6.95 0 0 1 3.82-2.8c4.33-.88 6.73 2.44 9.03 5.32Z"
+                                  ></path>
+                                </svg>
+                              </div>
+                              <span class="text-white" id="">12</span>
+                            </div>
+                          </artive-info>
+                        </div>
+                      </a>
+                    </article>
+                    <article class="">
+                      <a href="" class="relative" id="">
+                        <div
+                          class="bg-black w-full aspect-[3/4] rounded-lg overflow-hidden"
+                          id=""
+                        >
+                          <img
+                            src="../media/movie-1.jpeg"
+                            alt="w-full h-full object-cover"
+                            class=""
+                            id=""
+                          />
+                          <artive-info
+                            class="absolute bottom-0 left-0 right-0"
+                            id=""
+                          >
+                            <div
+                              class="h-30 w-full bg-gradient-to-t from-cyan-300 to-transparent opacity-30 rounded-b-lg"
+                              id=""
+                            ></div>
+                            <div
+                              class="absolute bottom-0 p-3 flex items-center gap-1 z-10"
+                              id=""
+                            >
+                              <div class="size-5 fill-white" id="">
+                                <svg viewBox="0 0 48 48">
+                                  <path
+                                    d="M40.96 24.15c1.83-4.8 1.05-8.61-.8-11.33a10.87 10.87 0 0 0-6.34-4.49 9.43 9.43 0 0 0-6.83 1.17c-1.08.65-2.1 1.53-2.99 2.66-.9-1.13-1.9-2.01-3-2.66a9.43 9.43 0 0 0-6.82-1.17 10.87 10.87 0 0 0-6.34 4.49c-1.85 2.72-2.63 6.54-.8 11.33 1.43 3.74 4.5 7.23 7.6 9.98a46.31 46.31 0 0 0 8.6 6.12l.76.4.76-.4a46.31 46.31 0 0 0 8.6-6.12c3.1-2.75 6.17-6.24 7.6-9.98ZM24 17.58c2.3-2.88 4.7-6.2 9.03-5.33a6.95 6.95 0 0 1 3.82 2.81c1.07 1.58 1.76 4.02.37 7.66-1.09 2.86-3.6 5.82-6.51 8.43A44.84 44.84 0 0 1 24 36.09a44.84 44.84 0 0 1-6.7-4.94c-2.93-2.6-5.43-5.57-6.52-8.43-1.4-3.64-.7-6.08.37-7.66a6.95 6.95 0 0 1 3.82-2.8c4.33-.88 6.73 2.44 9.03 5.32Z"
+                                  ></path>
+                                </svg>
+                              </div>
+                              <span class="text-white" id="">12</span>
+                            </div>
+                          </artive-info>
+                        </div>
+                      </a>
+                    </article>
+                    <article class="">
+                      <a href="" class="relative" id="">
+                        <div
+                          class="bg-black w-full aspect-[3/4] rounded-lg overflow-hidden"
+                          id=""
+                        >
+                          <img
+                            src="../media/movie-3.jpeg"
+                            alt="w-full h-full object-cover"
+                            class=""
+                            id=""
+                          />
+                          <artive-info
+                            class="absolute bottom-0 left-0 right-0"
+                            id=""
+                          >
+                            <div
+                              class="h-30 w-full bg-gradient-to-t from-cyan-300 to-transparent opacity-30 rounded-b-lg"
+                              id=""
+                            ></div>
+                            <div
+                              class="absolute bottom-0 p-3 flex items-center gap-1 z-10"
+                              id=""
+                            >
+                              <div class="size-5 fill-white" id="">
+                                <svg viewBox="0 0 48 48">
+                                  <path
+                                    d="M40.96 24.15c1.83-4.8 1.05-8.61-.8-11.33a10.87 10.87 0 0 0-6.34-4.49 9.43 9.43 0 0 0-6.83 1.17c-1.08.65-2.1 1.53-2.99 2.66-.9-1.13-1.9-2.01-3-2.66a9.43 9.43 0 0 0-6.82-1.17 10.87 10.87 0 0 0-6.34 4.49c-1.85 2.72-2.63 6.54-.8 11.33 1.43 3.74 4.5 7.23 7.6 9.98a46.31 46.31 0 0 0 8.6 6.12l.76.4.76-.4a46.31 46.31 0 0 0 8.6-6.12c3.1-2.75 6.17-6.24 7.6-9.98ZM24 17.58c2.3-2.88 4.7-6.2 9.03-5.33a6.95 6.95 0 0 1 3.82 2.81c1.07 1.58 1.76 4.02.37 7.66-1.09 2.86-3.6 5.82-6.51 8.43A44.84 44.84 0 0 1 24 36.09a44.84 44.84 0 0 1-6.7-4.94c-2.93-2.6-5.43-5.57-6.52-8.43-1.4-3.64-.7-6.08.37-7.66a6.95 6.95 0 0 1 3.82-2.8c4.33-.88 6.73 2.44 9.03 5.32Z"
+                                  ></path>
+                                </svg>
+                              </div>
+                              <span class="text-white" id="">12</span>
+                            </div>
+                          </artive-info>
+                        </div>
+                      </a>
+                    </article>
+                  </div>
+                </div>
+                <div x-show="selectedTab==='reposts'" x-cloak class="" id="">
+                  <div class="pt-32 text-center" id="">
+                    <div class="font-bold text-2xl" id="">No Repost yet</div>
+                    <div class="mt-2" id="">
+                      posts you reposted will appear here
+                    </div>
+                  </div>
+                </div>
+                <div x-show="selectedTab==='favorites'" x-cloak class="" id="">
+                  <div class="pt-32 text-center" id="">
+                    <div class="font-bold text-2xl" id="">No Favorites yet</div>
+                    <div class="mt-2" id="">Favorites will appear here</div>
+                  </div>
+                </div>
+                <div x-show="selectedTab==='liked'" x-cloak class="" id="">
+                  <div class="pt-32 text-center" id="">
+                    <div class="font-bold text-2xl" id="">
+                      No Liked postes yet
+                    </div>
+                    <div class="mt-2" id="">
+                      Posts you Liked will appear here
+                    </div>
+                  </div>
+                </div>
+              </tabs-content>
+            </profile-content>
           </div>
-        </scroll-bar>
+        </div>
       </main>
     </div>
   </body>
